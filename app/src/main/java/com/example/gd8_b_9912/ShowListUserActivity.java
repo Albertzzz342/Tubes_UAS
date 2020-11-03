@@ -54,7 +54,7 @@ public class ShowListUserActivity extends AppCompatActivity {
 
     public void loadUser(){
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        retrofit2.Call<UserResponse> call = apiService.getAllUser("data");
+        Call<UserResponse> call = apiService.getAllUser("data");
 
         call.enqueue(new Callback<UserResponse>(){
             @Override
@@ -68,18 +68,6 @@ public class ShowListUserActivity extends AppCompatActivity {
                 Toast.makeText(ShowListUserActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
             }
-
-//            @Override
-//            public void onResponse(Call<UserResponse> call, Response<UserResponse> response){
-//                generateDataList(response.body().getUsers());
-//                swipeRefresh.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserResponse> call, Throwable t) {
-//                Toast.makeText(ShowListUserActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
-//                swipeRefresh.setRefreshing(false);
-//            }
         });
     }
 

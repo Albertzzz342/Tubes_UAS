@@ -63,7 +63,7 @@ public class DetailUserFragment extends DialogFragment {
 
     private void loadUserById(String id){
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        retrofit2.Call<UserResponse> add = apiService.getUserById(id, "data");
+        Call<UserResponse> add = apiService.getUserById(id, "data");
 
         add.enqueue(new Callback<UserResponse>(){
             @Override
@@ -87,28 +87,6 @@ public class DetailUserFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
-
-//            @Override
-//            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-//                sNama = response.body().getUsers().get(0).getNama();
-//                sNim = response.body().getUsers().get(0).getNim();
-//                sFakultas = response.body().getUsers().get(0).getFakultas();
-//                sProdi = response.body().getUsers().get(0).getProdi();
-//                sJenisKelamin = response.body().getUsers().get(0).getJenis_kelamin();
-//
-//                twNama.setText(sNama);
-//                twNim.setText(sNim);
-//                twFakultas.setText(sFakultas);
-//                twProdi.setText(sProdi);
-//                twJenisKelamin.setText(sJenisKelamin);
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserResponse> call, Throwable t) {
-//                Toast.makeText(getContext(), "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
-//            }
         });
     }
 }
