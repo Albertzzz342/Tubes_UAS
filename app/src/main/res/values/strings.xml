@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Guided8_9912</string>
+    <string name="show_list_title">Show List User</string>
+    <string name="create_title">Create User</string>
+    <string name="search_hint">Search User</string>
+</resources>
