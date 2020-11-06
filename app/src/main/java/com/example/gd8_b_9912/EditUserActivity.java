@@ -138,11 +138,9 @@ public class EditUserActivity extends AppCompatActivity {
         add.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Toast.makeText(EditUserActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EditUserActivity.this, ShowListUserActivity.class);
-                startActivity(intent);
                 progressDialog.dismiss();
-//                onBackPressed();
+                Toast.makeText(EditUserActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
 
             @Override

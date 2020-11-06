@@ -42,9 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         twJenisKelamin = findViewById(R.id.twJenisKelamin);
         btnLogout = findViewById(R.id.btnLogout);
         btnEdit = findViewById(R.id.btnEdit);
-
-
-
+        
         Bundle bundle = getIntent().getExtras();
         sIdUser = bundle.getString("id");
         loadUserById(sIdUser);
