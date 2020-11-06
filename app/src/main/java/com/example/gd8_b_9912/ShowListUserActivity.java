@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class ShowListUserActivity extends AppCompatActivity {
     private List<UserDAO> user = new ArrayList<>();
     private SearchView searchView;
     private SwipeRefreshLayout swipeRefresh;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class ShowListUserActivity extends AppCompatActivity {
         });
         searchView = findViewById(R.id.searchUser);
         swipeRefresh = findViewById(R.id.swipeRefresh);
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.startShimmer();
 
         swipeRefresh.setRefreshing(true);
         loadUser();
@@ -52,13 +57,16 @@ public class ShowListUserActivity extends AppCompatActivity {
         });
     }
 
-    public void loadUser(){
+    public void loadUser() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> call = apiService.getAllUser("data");
 
-        call.enqueue(new Callback<UserResponse>(){
+        call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.VISIBLE);
+                shimmerFrameLayout.setVisibility(View.GONE);
                 generateDataList(response.body().getUsers());
                 swipeRefresh.setRefreshing(false);
             }
@@ -67,13 +75,15 @@ public class ShowListUserActivity extends AppCompatActivity {
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 Toast.makeText(ShowListUserActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
             }
         });
     }
 
-    public void generateDataList(List<UserDAO> customerList){
+    private void generateDataList(List<UserDAO> customerList) {
         recyclerView = findViewById(R.id.userRecyclerView);
-        recyclerAdapter = new UserRecyclerAdapter(this,customerList);
+        recyclerAdapter = new UserRecyclerAdapter(this, customerList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ShowListUserActivity.this);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
@@ -81,14 +91,14 @@ public class ShowListUserActivity extends AppCompatActivity {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String queryString) {
-                recyclerAdapter.getFilter().filter(queryString);
+            public boolean onQueryTextSubmit(String s) {
+                recyclerAdapter.getFilter().filter(s);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String queryString) {
-                recyclerAdapter.getFilter().filter(queryString);
+            public boolean onQueryTextChange(String s) {
+                recyclerAdapter.getFilter().filter(s);
                 return false;
             }
         });
