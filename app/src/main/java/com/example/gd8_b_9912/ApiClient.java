@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL ="https://asdospbp2020.000webhostapp.com/api/";
+    public static final String BASE_URL ="https://apipbp.ninnanovila.com/api/";
     public static Retrofit retrofit = null;
     public static Retrofit getClient(){
         if(retrofit == null){

@@ -125,7 +125,7 @@ public class DetailUserFragment extends DialogFragment {
 
     private void deleteUser(final String sIdUser) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-        alertDialogBuilder.setMessage("Are you sure, You wanted to make decision");
+        alertDialogBuilder.setMessage("Yakin ingin menghapus akun?");
         alertDialogBuilder.setPositiveButton("yes",
                 new DialogInterface.OnClickListener() {
                     @Override

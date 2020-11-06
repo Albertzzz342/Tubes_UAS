@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -39,7 +40,8 @@ public class ShowListUserActivity extends AppCompatActivity {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                Intent i = new Intent(ShowListUserActivity.this, MainActivity.class);
+                startActivity(i);
             }
         });
         searchView = findViewById(R.id.searchUser);
