@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas.Model;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tubes_uas.UserCRUD.DetailUserFragment;
+import com.example.tubes_uas.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     public void onBindViewHolder(@NonNull UserRecyclerAdapter.RoomViewHolder holder, int position) {
         final UserDAO brg = filteredDataList.get(position);
         holder.twNama.setText(brg.getNama());
-        holder.twNim.setText(brg.getNim());
+//        holder.twNim.setText(brg.getNim());
 
         holder.mParent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +72,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         public RoomViewHolder(@NonNull View itemView){
             super(itemView);
             twNama = itemView.findViewById(R.id.twNama);
-            twNim = itemView.findViewById(R.id.twNim);
+//            twNim = itemView.findViewById(R.id.twNim);
             mParent = itemView.findViewById(R.id.linearLayout);
         }
     }

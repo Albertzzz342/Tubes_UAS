@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -6,6 +6,9 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.tubes_uas.UserCRUD.CreateUserActivity;
+import com.example.tubes_uas.UserCRUD.ShowListUserActivity;
 
 public class MainActivity extends AppCompatActivity {
     private CardView cvCreateUser, cvShowListUser;

@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

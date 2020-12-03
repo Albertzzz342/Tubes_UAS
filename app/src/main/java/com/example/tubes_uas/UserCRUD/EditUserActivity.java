@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas.UserCRUD;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,10 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.tubes_uas.Api.ApiClient;
+import com.example.tubes_uas.Api.ApiInterface;
+import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
@@ -25,13 +29,14 @@ import retrofit2.Response;
 public class EditUserActivity extends AppCompatActivity {
     private String sIdUser;
     private ImageButton ibBack;
-    private EditText etNama, etNim, etPassword;
-    private AutoCompleteTextView exposedDropdownFakultas, exposedDropdownProdi;
-    private RadioGroup rgJenisKelamin;
+    private EditText etNama, etEmail, etPassword;
+    private AutoCompleteTextView exposedDropdownFasilitas, exposedDropdownJenis, exposedDropdownLama;
+    private RadioGroup rgLama;
     private MaterialButton btnCancel, btnUpdate;
-    private String sNama, sNim, sProdi = "", sFakultas = "", sJenisKelamin;
-    private String[] saProdi = new String[] {"Informatika", "Manajemen", "Ilmu Komunikasi", "Ilmu Hukum"};
-    private String[] saFakultas = new String[] {"FTI", "FBE", "FISIP", "FH"};
+    private String sNama, sEmail, sJenis = "", sFasilitas = "", sLama = "";
+    private String[] saJenis = new String[] {"Ekslusif", "Biasa"};
+    private String[] saFasilitas = new String[] {"Kamar Mandi Dalam", "Kamar Mandi Luar"};
+    private String[] saLama = new String[] {"1 Bulan", "6 Bulan", "1 Tahun"};
     private ProgressDialog progressDialog;
 
     @Override
@@ -50,32 +55,32 @@ public class EditUserActivity extends AppCompatActivity {
         });
 
         etNama = findViewById(R.id.etNama);
-        etNim = findViewById(R.id.etNim);
-        exposedDropdownProdi = findViewById(R.id.edProdi);
-        exposedDropdownFakultas = findViewById(R.id.edFakultas);
-        rgJenisKelamin = findViewById(R.id.rgJenisKelamin);
+        etEmail = findViewById(R.id.etEmail);
+        exposedDropdownJenis = findViewById(R.id.edJenis);
+        exposedDropdownFasilitas = findViewById(R.id.edFasilitas);
+        exposedDropdownLama = findViewById(R.id.edLama);
         etPassword = findViewById(R.id.etPassword);
         btnCancel = findViewById(R.id.btnCancel);
         btnUpdate = findViewById(R.id.btnUpdate);
 
-        ArrayAdapter<String> adapterProdi = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saProdi);
-        exposedDropdownProdi.setAdapter(adapterProdi);
-        exposedDropdownProdi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ArrayAdapter<String> adapterJenis = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saJenis);
+        exposedDropdownJenis.setAdapter(adapterJenis);
+        exposedDropdownJenis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sProdi = saProdi[i];
+                sJenis = saJenis[i];
             }
         });
 
-        ArrayAdapter<String> adapterFakultas = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saFakultas);
-        exposedDropdownFakultas.setAdapter(adapterFakultas);
+        ArrayAdapter<String> adapterFasilitas = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saFasilitas);
+        exposedDropdownFasilitas.setAdapter(adapterFasilitas);
 
-        exposedDropdownFakultas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        exposedDropdownFasilitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sFakultas = saFakultas[i];
+                sFasilitas = saFasilitas[i];
             }
         });
 
@@ -86,36 +91,25 @@ public class EditUserActivity extends AppCompatActivity {
             }
         });
 
-        rgJenisKelamin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.rbLakiLaki:
-                        sJenisKelamin = "Laki-laki";
-                        break;
-                    case R.id.rbPerempuan:
-                        sJenisKelamin = "Perempuan";
-                        break;
-                }
-            }
-        });
-
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(etNama.getText().toString().isEmpty()) {
+                if(etNama.getText().toString().isEmpty()){
                     etNama.setError("Isikan dengan benar");
                     etNama.requestFocus();
-                } else if(etNim.getText().toString().isEmpty()) {
-                    etNim.setError("Isikan dengan benar");
-                    etNim.requestFocus();
-                } else if(sProdi.isEmpty()) {
-                    exposedDropdownProdi.setError("Isikan dengan benar", null);
-                    exposedDropdownProdi.requestFocus();
-                } else if(sFakultas.isEmpty()) {
-                    exposedDropdownFakultas.setError("Isikan dengan benar", null);
-                    exposedDropdownFakultas.requestFocus();
-                } else if(etPassword.getText().toString().isEmpty()) {
+                } else if(etEmail.getText().toString().isEmpty()){
+                    etEmail.setError("Isikan dengan benar");
+                    etEmail.requestFocus();
+                } else if(sJenis.isEmpty()){
+                    exposedDropdownJenis.setError("Isikan dengan benar", null);
+                    exposedDropdownJenis.requestFocus();
+                } else if(sFasilitas.isEmpty()){
+                    exposedDropdownFasilitas.setError("Isikan dengan benar", null);
+                    exposedDropdownFasilitas.requestFocus();
+                } else if(sLama.isEmpty()){
+                    exposedDropdownLama.setError("Isikan dengan benar", null);
+                    exposedDropdownLama.requestFocus();
+                }else if(etPassword.getText().toString().isEmpty()){
                     etPassword.setError("Isikan dengan benar");
                     etPassword.requestFocus();
                 } else {
@@ -133,7 +127,7 @@ public class EditUserActivity extends AppCompatActivity {
     private void updateUser(String id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.editUserById(id, "data", etNama.getText().toString(),
-                etNim.getText().toString(), sProdi, sFakultas, sJenisKelamin, etPassword.getText().toString());
+                etEmail.getText().toString(), sJenis, sFasilitas, sLama, etPassword.getText().toString());
 
         add.enqueue(new Callback<UserResponse>() {
             @Override
@@ -159,15 +153,15 @@ public class EditUserActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 sNama = response.body().getUsers().get(0).getNama();
-                sNim = response.body().getUsers().get(0).getNim();
-                sFakultas = response.body().getUsers().get(0).getFakultas();
-                sProdi = response.body().getUsers().get(0).getProdi();
-                sJenisKelamin = response.body().getUsers().get(0).getJenis_kelamin();
+                sEmail = response.body().getUsers().get(0).getEmail();
+                sFasilitas = response.body().getUsers().get(0).getFasilitas();
+                sJenis = response.body().getUsers().get(0).getJenis();
+                sLama = response.body().getUsers().get(0).getLama();
 
                 etNama.setText(sNama);
-                etNim.setText(sNim);
-                exposedDropdownFakultas.setText(sFakultas, false);
-                exposedDropdownProdi.setText(sProdi, false);
+                etEmail.setText(sEmail);
+                exposedDropdownFasilitas.setText(sFasilitas, false);
+                exposedDropdownJenis.setText(sJenis, false);
                 progressDialog.dismiss();
             }
 

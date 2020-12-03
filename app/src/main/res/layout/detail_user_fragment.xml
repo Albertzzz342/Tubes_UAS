@@ -85,16 +85,16 @@
                         android:layout_alignParentLeft="true"
                         android:textSize="20dp"
                         android:textStyle="bold"
-                        android:text="NIM"
+                        android:text="Email"
                         android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/twNim"
+                        android:id="@+id/twEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="-1dp"
-                        android:hint="NIM"
+                        android:hint="Email"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20dp"/>
@@ -109,16 +109,16 @@
                         android:layout_alignParentLeft="true"
                         android:textSize="20dp"
                         android:textStyle="bold"
-                        android:text="Fakultas"
+                        android:text="Jenis Kos"
                         android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/twFakultas"
+                        android:id="@+id/twJenis"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="-1dp"
-                        android:hint="Fakultas"
+                        android:hint="Jenis Kos"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20dp"/>
@@ -133,16 +133,16 @@
                         android:layout_alignParentLeft="true"
                         android:textSize="20dp"
                         android:textStyle="bold"
-                        android:text="Prodi"
+                        android:text="Fasilitas"
                         android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/twProdi"
+                        android:id="@+id/twFasilitas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="-1dp"
-                        android:hint="Prodi"
+                        android:hint="Fasilitas"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20dp"/>
@@ -157,16 +157,16 @@
                         android:layout_alignParentLeft="true"
                         android:textSize="20dp"
                         android:textStyle="bold"
-                        android:text="Jenis Kelamin"
+                        android:text="Lama Sewa"
                         android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/twJenisKelamin"
+                        android:id="@+id/twLama"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="-1dp"
-                        android:hint="Jenis Kelamin"
+                        android:hint="Lama Sewa"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="20dp"/>

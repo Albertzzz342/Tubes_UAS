@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,10 +6,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tubes_uas.Api.ApiClient;
+import com.example.tubes_uas.Api.ApiInterface;
+import com.example.tubes_uas.Model.UserDAO;
+import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.UserCRUD.EditUserActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -21,8 +24,8 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private MaterialTextView twNama, twNim, twFakultas, twProdi, twJenisKelamin;
-    private String sIdUser, sNama, sNim, sFakultas, sProdi, sJenisKelamin;
+    private MaterialTextView twNama, twEmail, twFasilitas, twJenis, twLama;
+    private String sIdUser, sNama, sEmail, sFasilitas, sJenis, sLama;
     private MaterialButton btnLogout, btnEdit;
     private ProgressDialog progressDialog;
     private List<UserDAO> users;
@@ -36,10 +39,10 @@ public class ProfileActivity extends AppCompatActivity {
         progressDialog.show();
 
         twNama = findViewById(R.id.twNama);
-        twNim = findViewById(R.id.twNim);
-        twFakultas = findViewById(R.id.twFakultas);
-        twProdi = findViewById(R.id.twProdi);
-        twJenisKelamin = findViewById(R.id.twJenisKelamin);
+        twEmail = findViewById(R.id.twEmail);
+        twFasilitas = findViewById(R.id.twFasilitas);
+        twJenis = findViewById(R.id.twJenis);
+        twLama = findViewById(R.id.twLama);
         btnLogout = findViewById(R.id.btnLogout);
         btnEdit = findViewById(R.id.btnEdit);
         
@@ -76,16 +79,16 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 sNama = response.body().getUsers().get(0).getNama();
-                sNim = response.body().getUsers().get(0).getNim();
-                sFakultas = response.body().getUsers().get(0).getFakultas();
-                sProdi = response.body().getUsers().get(0).getProdi();
-                sJenisKelamin = response.body().getUsers().get(0).getJenis_kelamin();
+                sEmail = response.body().getUsers().get(0).getEmail();
+                sFasilitas = response.body().getUsers().get(0).getFasilitas();
+                sJenis = response.body().getUsers().get(0).getJenis();
+                sLama = response.body().getUsers().get(0).getLama();
 
                 twNama.setText(sNama);
-                twNim.setText(sNim);
-                twFakultas.setText(sFakultas);
-                twProdi.setText(sProdi);
-                twJenisKelamin.setText(sJenisKelamin);
+                twEmail.setText(sEmail);
+                twFasilitas.setText(sFasilitas);
+                twJenis.setText(sJenis);
+                twLama.setText(sLama);
                 progressDialog.dismiss();
             }
 

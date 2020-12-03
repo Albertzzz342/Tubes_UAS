@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.gd8_b_9912"
+        applicationId "com.example.tubes_uas"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1

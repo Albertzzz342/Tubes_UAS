@@ -30,13 +30,6 @@
                 android:textSize="18dp"
                 android:hint="Nama"
                 android:textColor="@color/black"/>
-            <TextView
-                android:id="@+id/twNim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Nim"
-                android:textSize="14dp"
-                android:textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

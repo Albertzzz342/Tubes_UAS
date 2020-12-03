@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas.UserCRUD;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -13,11 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.button.MaterialButton;
+import com.example.tubes_uas.Api.ApiClient;
+import com.example.tubes_uas.Api.ApiInterface;
+import com.example.tubes_uas.Model.UserDAO;
+import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.R;
 
 import java.util.List;
 
@@ -26,8 +29,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailUserFragment extends DialogFragment {
-    private TextView twNama, twNim, twFakultas, twProdi, twJenisKelamin;
-    private String sIdUser, sNama, sNim, sFakultas, sProdi, sJenisKelamin;
+    private TextView twNama, twEmail, twJenis, twFasilitas, twLama;
+    private String sIdUser, sNama, sEmail, sJenis, sFasilitas, sLama;
     private ImageButton ibClose;
     private ProgressDialog progressDialog;
     private Button btnDelete, btnEdit;
@@ -58,11 +61,11 @@ public class DetailUserFragment extends DialogFragment {
             }
         });
 
-        twNama = v.findViewById(R.id.twNama);
-        twNim = v.findViewById(R.id.twNim);
-        twFakultas = v.findViewById(R.id.twFakultas);
-        twProdi = v.findViewById(R.id.twProdi);
-        twJenisKelamin = v.findViewById(R.id.twJenisKelamin);
+        twNama      = v.findViewById(R.id.twNama);
+        twEmail     = v.findViewById(R.id.twEmail);
+        twJenis     = v.findViewById(R.id.twJenis);
+        twFasilitas = v.findViewById(R.id.twFasilitas);
+        twLama      = v.findViewById(R.id.twLama);
 
         btnDelete = v.findViewById(R.id.btnDelete);
         btnEdit = v.findViewById(R.id.btnEdit);
@@ -80,17 +83,17 @@ public class DetailUserFragment extends DialogFragment {
         add.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                sNama = response.body().getUsers().get(0).getNama();
-                sNim = response.body().getUsers().get(0).getNim();
-                sFakultas = response.body().getUsers().get(0).getFakultas();
-                sProdi = response.body().getUsers().get(0).getProdi();
-                sJenisKelamin = response.body().getUsers().get(0).getJenis_kelamin();
+                sNama       = response.body().getUsers().get(0).getNama();
+                sEmail      = response.body().getUsers().get(0).getEmail();
+                sJenis      = response.body().getUsers().get(0).getJenis();
+                sFasilitas  = response.body().getUsers().get(0).getFasilitas();
+                sLama       = response.body().getUsers().get(0).getLama();
 
                 twNama.setText(sNama);
-                twNim.setText(sNim);
-                twFakultas.setText(sFakultas);
-                twProdi.setText(sProdi);
-                twJenisKelamin.setText(sJenisKelamin);
+                twEmail.setText(sEmail);
+                twJenis.setText(sJenis);
+                twFasilitas.setText(sFasilitas);
+                twLama.setText(sLama);
                 progressDialog.dismiss();
 
                 users = response.body().getUsers();

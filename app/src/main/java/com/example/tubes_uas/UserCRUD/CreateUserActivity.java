@@ -1,4 +1,4 @@
-package com.example.gd8_b_9912;
+package com.example.tubes_uas.UserCRUD;
 
 
 import android.app.ProgressDialog;
@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tubes_uas.Api.ApiClient;
+import com.example.tubes_uas.Api.ApiInterface;
+import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
@@ -24,13 +28,14 @@ import retrofit2.Response;
 
 public class CreateUserActivity extends AppCompatActivity {
     private ImageButton ibBack;
-    private EditText etNama, etNim, etPassword;
-    private AutoCompleteTextView expossedDropdownFakultas, expossedDropdownProdi;
+    private EditText etNama, etEmail, etPassword;
+    private AutoCompleteTextView exposedDropdownFasilitas, exposedDropdownJenis, exposedDropdownLama;
     private RadioGroup rgJenisKelamin;
     private MaterialButton btnCancel, btnCreate;
-    private String sProdi = "", sFakultas = "", sJenisKelamin;
-    private String[] saProdi = new String[] {"Informatika", "Manajemen", "Ilmu Komunikasi", "Ilmu Hukum"};
-    private String[] saFakultas = new String[] {"FTI", "FBE", "FISIP", "FH"};
+    private String sJenis = "", sFasilitas = "", sLama = "";
+    private String[] saJenis = new String[] {"Ekslusif", "Biasa"};
+    private String[] saFasilitas = new String[] {"Kamar Mandi Dalam", "Kamar Mandi Luar"};
+    private String[] saLama = new String[] {"1 Bulan", "6 Bulan", "1 Tahun"};
     private ProgressDialog progressDialog;
 
     @Override
@@ -49,32 +54,41 @@ public class CreateUserActivity extends AppCompatActivity {
         });
 
         etNama = findViewById(R.id.etNama);
-        etNim = findViewById(R.id.etNim);
-        expossedDropdownProdi = findViewById(R.id.edProdi);
-        expossedDropdownFakultas = findViewById(R.id.edFakultas);
-        rgJenisKelamin = findViewById(R.id.rgJenisKelamin);
+        etEmail = findViewById(R.id.etEmail);
+        exposedDropdownJenis = findViewById(R.id.edJenis);
+        exposedDropdownFasilitas = findViewById(R.id.edFasilitas);
+        exposedDropdownLama = findViewById(R.id.edLama);
         etPassword = findViewById(R.id.etPassword);
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
 
-        ArrayAdapter<String> adapterProdi = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saProdi);
-        expossedDropdownProdi.setAdapter(adapterProdi);
-        expossedDropdownProdi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ArrayAdapter<String> adapterJenis = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saJenis);
+        exposedDropdownJenis.setAdapter(adapterJenis);
+        exposedDropdownJenis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sProdi = saProdi[i];
+                sJenis = saJenis[i];
             }
         });
 
-        ArrayAdapter<String> adapterFakultas = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saFakultas);
-        expossedDropdownFakultas.setAdapter(adapterFakultas);
-
-        expossedDropdownFakultas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ArrayAdapter<String> adapterFasilitas = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saFasilitas);
+        exposedDropdownFasilitas.setAdapter(adapterFasilitas);
+        exposedDropdownFasilitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sFakultas = saFakultas[i];
+                sFasilitas = saFasilitas[i];
+            }
+        });
+
+        ArrayAdapter<String> adapterLama = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saLama);
+        exposedDropdownLama.setAdapter(adapterLama);
+        exposedDropdownLama.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sLama = saLama[i];
             }
         });
 
@@ -85,36 +99,25 @@ public class CreateUserActivity extends AppCompatActivity {
             }
         });
 
-        rgJenisKelamin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.rbLakiLaki:
-                        sJenisKelamin = "Laki-laki";
-                        break;
-                    case R.id.rbPerempuan:
-                        sJenisKelamin = "Perempuan";
-                        break;
-                }
-            }
-        });
-
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(etNama.getText().toString().isEmpty()){
                     etNama.setError("Isikan dengan benar");
                     etNama.requestFocus();
-                } else if(etNim.getText().toString().isEmpty()){
-                    etNim.setError("Isikan dengan benar");
-                    etNim.requestFocus();
-                } else if(sProdi.isEmpty()){
-                    expossedDropdownProdi.setError("Isikan dengan benar", null);
-                    expossedDropdownProdi.requestFocus();
-                } else if(sFakultas.isEmpty()){
-                    expossedDropdownFakultas.setError("Isikan dengan benar", null);
-                    expossedDropdownFakultas.requestFocus();
-                } else if(etPassword.getText().toString().isEmpty()){
+                } else if(etEmail.getText().toString().isEmpty()){
+                    etEmail.setError("Isikan dengan benar");
+                    etEmail.requestFocus();
+                } else if(sJenis.isEmpty()){
+                    exposedDropdownJenis.setError("Isikan dengan benar", null);
+                    exposedDropdownJenis.requestFocus();
+                } else if(sFasilitas.isEmpty()){
+                    exposedDropdownFasilitas.setError("Isikan dengan benar", null);
+                    exposedDropdownFasilitas.requestFocus();
+                } else if(sLama.isEmpty()){
+                    exposedDropdownLama.setError("Isikan dengan benar", null);
+                    exposedDropdownLama.requestFocus();
+                }else if(etPassword.getText().toString().isEmpty()){
                     etPassword.setError("Isikan dengan benar");
                     etPassword.requestFocus();
                 } else {
@@ -128,7 +131,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private void saveUser() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.createUser(etNama.getText().toString(),
-                etNim.getText().toString(), sProdi, sFakultas, sJenisKelamin, etPassword.getText().toString());
+                etEmail.getText().toString(), sJenis, sFasilitas, sLama, etPassword.getText().toString());
 
         add.enqueue(new Callback<UserResponse>() {
             @Override
