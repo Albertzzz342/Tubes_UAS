@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserDAO {
     @SerializedName("id")
-    private String id;
+    private int id;
 
     @SerializedName("nama")
     private String nama;
@@ -12,35 +12,23 @@ public class UserDAO {
     @SerializedName("email")
     private String email;
 
-    @SerializedName("jenis")
-    private String jenis;
-
-    @SerializedName("fasilitas")
-    private String fasilitas;
-
-    @SerializedName("lama")
-    private String lama;
-
     @SerializedName("password")
     private String password;
 
-    public UserDAO(String id, String nama, String email,
-                   String jenis, String fasilitas, String lama,
-                   String password){
+    public UserDAO(int id,
+                   String nama, String email, String password,
+                   String paket, String hari, String bulan){
         this.id     = id;
         this.nama   = nama;
         this.email  = email;
-        this.jenis  = jenis;
-        this.fasilitas = fasilitas;
-        this.lama   = lama;
         this.password = password;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,30 +46,6 @@ public class UserDAO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getJenis() {
-        return jenis;
-    }
-
-    public void setJenis(String jenis) {
-        this.jenis = jenis;
-    }
-
-    public String getFasilitas() {
-        return fasilitas;
-    }
-
-    public void setFasilitas(String fasilitas) {
-        this.fasilitas = fasilitas;
-    }
-
-    public String getLama() {
-        return lama;
-    }
-
-    public void setLama(String lama) {
-        this.lama = lama;
     }
 
     public String getPassword() {

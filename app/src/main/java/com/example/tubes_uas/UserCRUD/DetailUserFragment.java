@@ -30,7 +30,8 @@ import retrofit2.Response;
 
 public class DetailUserFragment extends DialogFragment {
     private TextView twNama, twEmail, twJenis, twFasilitas, twLama;
-    private String sIdUser, sNama, sEmail, sJenis, sFasilitas, sLama;
+    private String sNama, sEmail, sJenis, sFasilitas, sLama;
+    private int sIdUser;
     private ImageButton ibClose;
     private ProgressDialog progressDialog;
     private Button btnDelete, btnEdit;
@@ -70,24 +71,24 @@ public class DetailUserFragment extends DialogFragment {
         btnDelete = v.findViewById(R.id.btnDelete);
         btnEdit = v.findViewById(R.id.btnEdit);
 
-        sIdUser = getArguments().getString("id", "");
+//        sIdUser = getArguments().getInt("id", "");
         loadUserById(sIdUser);
 
         return v;
     }
 
-    private void loadUserById(String id) {
+    private void loadUserById(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.getUserById(id, "data");
 
         add.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                sNama       = response.body().getUsers().get(0).getNama();
-                sEmail      = response.body().getUsers().get(0).getEmail();
-                sJenis      = response.body().getUsers().get(0).getJenis();
-                sFasilitas  = response.body().getUsers().get(0).getFasilitas();
-                sLama       = response.body().getUsers().get(0).getLama();
+//                sNama       = response.body().getUsers().get(0).getNama();
+//                sEmail      = response.body().getUsers().get(0).getEmail();
+//                sJenis      = response.body().getUsers().get(0).getJenis();
+//                sFasilitas  = response.body().getUsers().get(0).getFasilitas();
+//                sLama       = response.body().getUsers().get(0).getLama();
 
                 twNama.setText(sNama);
                 twEmail.setText(sEmail);
@@ -96,7 +97,7 @@ public class DetailUserFragment extends DialogFragment {
                 twLama.setText(sLama);
                 progressDialog.dismiss();
 
-                users = response.body().getUsers();
+//                users = response.body().getUsers();
                 final UserDAO user = users.get(0);
 
                 btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +112,7 @@ public class DetailUserFragment extends DialogFragment {
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), EditUserActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("id", user.getId());
+//                        bundle.putString("id", user.getId());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -126,7 +127,7 @@ public class DetailUserFragment extends DialogFragment {
         });
     }
 
-    private void deleteUser(final String sIdUser) {
+    private void deleteUser(final int sIdUser) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setMessage("Yakin ingin menghapus akun?");
         alertDialogBuilder.setPositiveButton("yes",

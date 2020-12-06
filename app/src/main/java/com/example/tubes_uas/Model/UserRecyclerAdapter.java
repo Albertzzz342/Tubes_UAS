@@ -54,7 +54,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                 dialog.show(manager, "dialog");
 
                 Bundle args = new Bundle();
-                args.putString("id", brg.getId());
+//                args.putString("id", brg.getId());
                 dialog.setArguments(args);
             }
         });

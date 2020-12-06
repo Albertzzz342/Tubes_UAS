@@ -76,7 +76,7 @@ public class ShowListUserActivity extends AppCompatActivity {
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.VISIBLE);
                 shimmerFrameLayout.setVisibility(View.GONE);
-                generateDataList(response.body().getUsers());
+//                generateDataList(response.body().getUsers());
                 swipeRefresh.setRefreshing(false);
             }
 

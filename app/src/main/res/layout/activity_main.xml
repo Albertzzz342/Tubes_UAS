@@ -26,14 +26,7 @@
                 android:textSize="25dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text="GUIDED WEB API" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:textSize="15dp"
-                android:text="Selamat datang di GD modul 8 Web API Retrofit"/>
+                android:text="Menu Admin" />
         </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
@@ -82,6 +75,7 @@
                             android:textStyle="bold"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvShowListUser"
                     android:layout_width="wrap_content"

@@ -27,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditUserActivity extends AppCompatActivity {
-    private String sIdUser;
+    private int sIdUser;
     private ImageButton ibBack;
     private EditText etNama, etEmail, etPassword;
     private AutoCompleteTextView exposedDropdownFasilitas, exposedDropdownJenis, exposedDropdownLama;
@@ -120,11 +120,11 @@ public class EditUserActivity extends AppCompatActivity {
         });
 
         Intent mIntent = getIntent();
-        sIdUser = mIntent.getStringExtra("id");
+//        sIdUser = mIntent.getStringExtra("id");
         loadUserById(sIdUser);
     }
 
-    private void updateUser(String id) {
+    private void updateUser(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.editUserById(id, "data", etNama.getText().toString(),
                 etEmail.getText().toString(), sJenis, sFasilitas, sLama, etPassword.getText().toString());
@@ -145,18 +145,18 @@ public class EditUserActivity extends AppCompatActivity {
         });
     }
 
-    private void loadUserById(String id) {
+    private void loadUserById(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.getUserById(id, "data");
 
         add.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                sNama = response.body().getUsers().get(0).getNama();
-                sEmail = response.body().getUsers().get(0).getEmail();
-                sFasilitas = response.body().getUsers().get(0).getFasilitas();
-                sJenis = response.body().getUsers().get(0).getJenis();
-                sLama = response.body().getUsers().get(0).getLama();
+//                sNama = response.body().getUsers().get(0).getNama();
+//                sEmail = response.body().getUsers().get(0).getEmail();
+//                sFasilitas = response.body().getUsers().get(0).getFasilitas();
+//                sJenis = response.body().getUsers().get(0).getJenis();
+//                sLama = response.body().getUsers().get(0).getLama();
 
                 etNama.setText(sNama);
                 etEmail.setText(sEmail);

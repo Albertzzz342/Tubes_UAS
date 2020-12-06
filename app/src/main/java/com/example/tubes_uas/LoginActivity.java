@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +15,9 @@ import com.example.tubes_uas.Model.UserDAO;
 import com.example.tubes_uas.Model.UserResponse;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Response<UserResponse> response;
 
-    List<UserDAO> users;
+//    UserDAO userLogin;
+    List<UserDAO> userLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-//                Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 login();
             }
         });
@@ -67,13 +70,21 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     } else {
                         Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        users = response.body().getUsers();
-                        final UserDAO user = users.get(0);
-                        Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", user.getId());
-                        i.putExtras(bundle);
-                        startActivity(i);
+                        userLogin = response.body().getUsers();
+//                        final UserDAO user = userLogin.get(0);
+                        if (response.body().getUsers() != null){
+                            Toast.makeText(LoginActivity.this, "isi", Toast.LENGTH_SHORT).show();
+                            String orang = String.valueOf(response.body().getUser());
+                            Toast.makeText(LoginActivity.this, orang, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "kosong", Toast.LENGTH_SHORT).show();
+                        }
+//                        Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("id", user.getId());
+//                        Toast.makeText(LoginActivity.this, user.getId(), Toast.LENGTH_SHORT).show();
+//                        i.putExtras(bundle);
+//                        startActivity(i);
                         progressDialog.dismiss();
                     }
                 } else {

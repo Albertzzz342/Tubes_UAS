@@ -29,13 +29,7 @@ import retrofit2.Response;
 public class CreateUserActivity extends AppCompatActivity {
     private ImageButton ibBack;
     private EditText etNama, etEmail, etPassword;
-    private AutoCompleteTextView exposedDropdownFasilitas, exposedDropdownJenis, exposedDropdownLama;
-    private RadioGroup rgJenisKelamin;
     private MaterialButton btnCancel, btnCreate;
-    private String sJenis = "", sFasilitas = "", sLama = "";
-    private String[] saJenis = new String[] {"Ekslusif", "Biasa"};
-    private String[] saFasilitas = new String[] {"Kamar Mandi Dalam", "Kamar Mandi Luar"};
-    private String[] saLama = new String[] {"1 Bulan", "6 Bulan", "1 Tahun"};
     private ProgressDialog progressDialog;
 
     @Override
@@ -55,42 +49,9 @@ public class CreateUserActivity extends AppCompatActivity {
 
         etNama = findViewById(R.id.etNama);
         etEmail = findViewById(R.id.etEmail);
-        exposedDropdownJenis = findViewById(R.id.edJenis);
-        exposedDropdownFasilitas = findViewById(R.id.edFasilitas);
-        exposedDropdownLama = findViewById(R.id.edLama);
         etPassword = findViewById(R.id.etPassword);
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
-
-        ArrayAdapter<String> adapterJenis = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saJenis);
-        exposedDropdownJenis.setAdapter(adapterJenis);
-        exposedDropdownJenis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sJenis = saJenis[i];
-            }
-        });
-
-        ArrayAdapter<String> adapterFasilitas = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saFasilitas);
-        exposedDropdownFasilitas.setAdapter(adapterFasilitas);
-        exposedDropdownFasilitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sFasilitas = saFasilitas[i];
-            }
-        });
-
-        ArrayAdapter<String> adapterLama = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saLama);
-        exposedDropdownLama.setAdapter(adapterLama);
-        exposedDropdownLama.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sLama = saLama[i];
-            }
-        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,16 +69,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 } else if(etEmail.getText().toString().isEmpty()){
                     etEmail.setError("Isikan dengan benar");
                     etEmail.requestFocus();
-                } else if(sJenis.isEmpty()){
-                    exposedDropdownJenis.setError("Isikan dengan benar", null);
-                    exposedDropdownJenis.requestFocus();
-                } else if(sFasilitas.isEmpty()){
-                    exposedDropdownFasilitas.setError("Isikan dengan benar", null);
-                    exposedDropdownFasilitas.requestFocus();
-                } else if(sLama.isEmpty()){
-                    exposedDropdownLama.setError("Isikan dengan benar", null);
-                    exposedDropdownLama.requestFocus();
-                }else if(etPassword.getText().toString().isEmpty()){
+                } else if(etPassword.getText().toString().isEmpty()){
                     etPassword.setError("Isikan dengan benar");
                     etPassword.requestFocus();
                 } else {
@@ -131,7 +83,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private void saveUser() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.createUser(etNama.getText().toString(),
-                etEmail.getText().toString(), sJenis, sFasilitas, sLama, etPassword.getText().toString());
+                etEmail.getText().toString(), etPassword.getText().toString());
 
         add.enqueue(new Callback<UserResponse>() {
             @Override

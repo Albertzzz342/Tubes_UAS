@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.tubes_uas.Api.ApiClient;
 import com.example.tubes_uas.Api.ApiInterface;
+import com.example.tubes_uas.Model.KosResponse;
 import com.example.tubes_uas.Model.UserResponse;
 import com.example.tubes_uas.R;
 import com.example.tubes_uas.UserCRUD.EditUserActivity;
@@ -28,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditKosActivity extends AppCompatActivity {
-    private String sIdUser;
+    private int sIdUser;
     private ImageButton ibBack;
     private AutoCompleteTextView exposedDropdownFasilitas, exposedDropdownJenis, exposedDropdownLama;
     private MaterialButton btnCancel, btnUpdate;
@@ -107,11 +108,11 @@ public class EditKosActivity extends AppCompatActivity {
         });
 
         Intent mIntent = getIntent();
-        sIdUser = mIntent.getStringExtra("id");
+//        sIdUser = mIntent.getIntExtra("id");
         loadKosById(sIdUser);
     }
 
-    private void updateKos(String id) {
+    private void updateKos(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserResponse> add = apiService.editKosById(id, "data", sJenis, sFasilitas, sLama);
 
@@ -131,16 +132,16 @@ public class EditKosActivity extends AppCompatActivity {
         });
     }
 
-    private void loadKosById(String id) {
+    private void loadKosById(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UserResponse> add = apiService.getKosById(id, "data");
+        Call<KosResponse> add = apiService.getKosById(id, "data");
 
-        add.enqueue(new Callback<UserResponse>() {
+        add.enqueue(new Callback<KosResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                sFasilitas = response.body().getUsers().get(0).getFasilitas();
-                sJenis = response.body().getUsers().get(0).getJenis();
-                sLama = response.body().getUsers().get(0).getLama();
+            public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
+//                sFasilitas = response.body().getUsers().get(0).getFasilitas();
+//                sJenis = response.body().getUsers().get(0).getJenis();
+//                sLama = response.body().getUsers().get(0).getLama();
 
                 exposedDropdownFasilitas.setText(sFasilitas, false);
                 exposedDropdownJenis.setText(sJenis, false);
@@ -149,7 +150,7 @@ public class EditKosActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<KosResponse> call, Throwable t) {
                 Toast.makeText(EditKosActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }

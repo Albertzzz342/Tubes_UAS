@@ -11,18 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".KosCRUD.EditKosActivity"></activity>
-        <activity android:name=".KosCRUD.CreateKosActivity" >
+        <activity android:name=".PhotoActivity"></activity>
+        <activity android:name=".LogRegActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CateringCRUD.EditCateringActivity" />
+        <activity android:name=".CateringCRUD.CreateCateringActivity" />
+        <activity android:name=".KosCRUD.EditKosActivity" />
+        <activity android:name=".KosCRUD.CreateKosActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".UserCRUD.EditUserActivity" />
         <activity android:name=".UserCRUD.ShowListUserActivity" />
         <activity android:name=".UserCRUD.CreateUserActivity" />

@@ -28,12 +28,12 @@ import retrofit2.Response;
 
 public class CreateKosActivity extends AppCompatActivity {
     private ImageButton ibBack;
-    private AutoCompleteTextView exposedDropdownFasilitas, exposedDropdownJenis, exposedDropdownLama;
+    private AutoCompleteTextView exposedDropdownJenis, exposedDropdownFasilitas, exposedDropdownLama;
     private MaterialButton btnCancel, btnCreate;
-    private String sJenis = "", sFasilitas = "", sLama = "";
+    private String sFasilitas = "", sJenis = "", sLama = "";
     private String[] saJenis = new String[] {"Ekslusif", "Biasa"};
     private String[] saFasilitas = new String[] {"Kamar Mandi Dalam", "Kamar Mandi Luar"};
-    private String[] saLama = new String[] {"1 Bulan", "6 Bulan", "1 Tahun"};
+    private String[] saLama = new String[] {"1 Lama", "6 Lama", "1 Tahun"};
     private ProgressDialog progressDialog;
 
     @Override
@@ -51,21 +51,11 @@ public class CreateKosActivity extends AppCompatActivity {
             }
         });
 
-        exposedDropdownJenis = findViewById(R.id.edJenis);
         exposedDropdownFasilitas = findViewById(R.id.edFasilitas);
+        exposedDropdownJenis = findViewById(R.id.edJenis);
         exposedDropdownLama = findViewById(R.id.edLama);
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
-
-        ArrayAdapter<String> adapterJenis = new ArrayAdapter<>(Objects.requireNonNull(this),
-                R.layout.list_item, R.id.item_list, saJenis);
-        exposedDropdownJenis.setAdapter(adapterJenis);
-        exposedDropdownJenis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                sJenis = saJenis[i];
-            }
-        });
 
         ArrayAdapter<String> adapterFasilitas = new ArrayAdapter<>(Objects.requireNonNull(this),
                 R.layout.list_item, R.id.item_list, saFasilitas);
@@ -74,6 +64,16 @@ public class CreateKosActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 sFasilitas = saFasilitas[i];
+            }
+        });
+
+        ArrayAdapter<String> adapterJenis = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saJenis);
+        exposedDropdownJenis.setAdapter(adapterJenis);
+        exposedDropdownJenis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sJenis = saJenis[i];
             }
         });
 
@@ -97,12 +97,12 @@ public class CreateKosActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sJenis.isEmpty()){
-                    exposedDropdownJenis.setError("Isikan dengan benar", null);
-                    exposedDropdownJenis.requestFocus();
-                } else if(sFasilitas.isEmpty()){
+                if(sFasilitas.isEmpty()){
                     exposedDropdownFasilitas.setError("Isikan dengan benar", null);
                     exposedDropdownFasilitas.requestFocus();
+                } else if(sJenis.isEmpty()){
+                    exposedDropdownJenis.setError("Isikan dengan benar", null);
+                    exposedDropdownJenis.requestFocus();
                 } else if(sLama.isEmpty()){
                     exposedDropdownLama.setError("Isikan dengan benar", null);
                     exposedDropdownLama.requestFocus();
@@ -116,7 +116,7 @@ public class CreateKosActivity extends AppCompatActivity {
 
     private void saveKos() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UserResponse> add = apiService.createKos(sJenis, sFasilitas, sLama);
+        Call<UserResponse> add = apiService.createKos(sFasilitas, sJenis, sLama);
 
         add.enqueue(new Callback<UserResponse>() {
             @Override

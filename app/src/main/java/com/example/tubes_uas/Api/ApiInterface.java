@@ -1,5 +1,7 @@
 package com.example.tubes_uas.Api;
 
+import com.example.tubes_uas.Model.CateringResponse;
+import com.example.tubes_uas.Model.KosResponse;
 import com.example.tubes_uas.Model.UserResponse;
 
 import retrofit2.Call;
@@ -16,8 +18,7 @@ public interface ApiInterface {
 
     @POST("register")
     @FormUrlEncoded
-    Call<UserResponse> registerUser( @Field("nama") String nama,
-                                     @Field("email") String email,
+    Call<UserResponse> registerUser( @Field("email") String email,
                                      @Field("password") String password);
 
     @POST("login")
@@ -29,21 +30,18 @@ public interface ApiInterface {
     Call<UserResponse> getAllUser(@Query("data") String data);
 
     @GET("user/{id}")
-    Call<UserResponse> getUserById(@Path("id")String id,
+    Call<UserResponse> getUserById(@Path("id")int id,
                                    @Query("data") String data);
 
     @POST("user")
     @FormUrlEncoded
     Call<UserResponse> createUser(@Field("nama") String nama,
                                   @Field("email") String email,
-                                  @Field("jenis") String jenis,
-                                  @Field("fasilitas") String fasilitas,
-                                  @Field("lama") String lama,
                                   @Field("password") String password);
 
     @POST("user/update/{id}")
     @FormUrlEncoded
-    Call<UserResponse> editUserById(@Path("id")String id,
+    Call<UserResponse> editUserById(@Path("id")int id,
                                     @Query("data") String data,
                                     @Field("nama") String nama,
                                     @Field("email") String email,
@@ -53,7 +51,7 @@ public interface ApiInterface {
                                     @Field("password") String password);
 
     @POST("user/delete/{id}")
-    Call<UserResponse> deleteUserById(@Path("id")String id);
+    Call<UserResponse> deleteUserById(@Path("id")int id);
 
 
     //CRUD Kos
@@ -67,19 +65,19 @@ public interface ApiInterface {
     Call<UserResponse> getAllKos(@Query("data") String data);
 
     @GET("kos/{id}")
-    Call<UserResponse> getKosById(@Path("id")String id,
+    Call<KosResponse> getKosById(@Path("id")int id,
                                    @Query("data") String data);
 
     @PUT("kos/update/{id}")
     @FormUrlEncoded
-    Call<UserResponse> editKosById(@Path("id")String id,
+    Call<UserResponse> editKosById(@Path("id")int id,
                                     @Query("data") String data,
                                     @Field("jenis") String jenis,
                                     @Field("fasilitas") String fasilitas,
                                     @Field("lama") String lama);
 
     @DELETE("kos/delete/{id}")
-    Call<UserResponse> deleteKosById(@Path("id") String id);
+    Call<UserResponse> deleteKosById(@Path("id") int id);
 
 
     //CRUD Catering
@@ -93,12 +91,12 @@ public interface ApiInterface {
     Call<UserResponse> getAllCatering(@Query("data") String data);
 
     @GET("catering/{id}")
-    Call<UserResponse> getCateringById( @Path("id")String id,
+    Call<CateringResponse> getCateringById( @Path("id")int id,
                                         @Query("data") String data);
 
     @PUT("catering/update/{id}")
     @FormUrlEncoded
-    Call<UserResponse> editCateringById(@Path("id")String id,
+    Call<UserResponse> editCateringById(@Path("id")int id,
                                         @Query("data") String data,
                                         @Field("paket") String paket,
                                         @Field("hari") String hari,
