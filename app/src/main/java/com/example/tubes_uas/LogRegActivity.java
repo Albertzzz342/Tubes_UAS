@@ -195,12 +195,12 @@ public class LogRegActivity extends AppCompatActivity {
         callRegister.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> callRegister, Response<UserResponse> response) {
-                if(response.body().getMessage().equals("Register Success")) {
-                    Toast.makeText(LogRegActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(LogRegActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
+//                if(response.body().getMessage().equals("Register Success")) {
+//                    Toast.makeText(LogRegActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(LogRegActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                    progressDialog.dismiss();
+//                }
             }
 
             @Override
