@@ -45,9 +45,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.show();
-
         cvCreateKos = findViewById(R.id.cvCreateKos);
         cvCreateCatering = findViewById(R.id.cvCreateCatering);
 
