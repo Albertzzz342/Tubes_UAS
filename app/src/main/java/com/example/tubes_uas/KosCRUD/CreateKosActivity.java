@@ -40,7 +40,7 @@ public class CreateKosActivity extends AppCompatActivity {
     private String sFasilitas = "", sJenis = "", sLama = "";
     private String[] saJenis = new String[] {"Ekslusif", "Biasa"};
     private String[] saFasilitas = new String[] {"Kamar Mandi Dalam", "Kamar Mandi Luar"};
-    private String[] saLama = new String[] {"1 Lama", "6 Lama", "1 Tahun"};
+    private String[] saLama = new String[] {"1 Bulan", "6 Bulan", "1 Tahun"};
     private ProgressDialog progressDialog;
 
     @Override
@@ -65,9 +65,6 @@ public class CreateKosActivity extends AppCompatActivity {
         btnCreate = findViewById(R.id.btnCreate);
         btnEdit = findViewById(R.id.btnEdit);
 
-        Bundle bundle = getIntent().getExtras();
-        sIdUser = bundle.getInt("id");
-        loadUserById(sIdUser);
 
         ArrayAdapter<String> adapterFasilitas = new ArrayAdapter<>(Objects.requireNonNull(this),
                 R.layout.list_item, R.id.item_list, saFasilitas);
@@ -98,6 +95,10 @@ public class CreateKosActivity extends AppCompatActivity {
                 sLama = saLama[i];
             }
         });
+
+        Bundle bundle = getIntent().getExtras();
+        sIdUser = bundle.getInt("id");
+//        loadUserById(sIdUser);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,16 +167,18 @@ public class CreateKosActivity extends AppCompatActivity {
         ApiInterface apiServiceKos = ApiClient.getClient().create(ApiInterface.class);
         Call<KosResponse> callKos = apiServiceKos.getKosById(sIdUser, "data");
 
-
-
-
-
         callKos.enqueue(new Callback<KosResponse>() {
             @Override
             public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
-                sJenis = response.body().getData().getJenis();
-                sFasilitas = response.body().getData().getFasilitas();
-                sLama = response.body().getData().getLama();
+                if (response.code() == 200){
+                    sJenis = response.body().getData().getJenis();
+                    sFasilitas = response.body().getData().getFasilitas();
+                    sLama = response.body().getData().getLama();
+                }else {
+                    sJenis = "Jenis";
+                    sFasilitas = "Fasilitas";
+                    sLama = "Lama";
+                }
 
                 exposedDropdownJenis.setText(sJenis);
                 exposedDropdownFasilitas.setText(sFasilitas);

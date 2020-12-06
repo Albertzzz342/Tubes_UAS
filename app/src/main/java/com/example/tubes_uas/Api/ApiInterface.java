@@ -77,7 +77,7 @@ public interface ApiInterface {
                                     @Field("lama") String lama);
 
     @DELETE("kos/delete/{id}")
-    Call<UserResponse> deleteKosById(@Path("id") int id);
+    Call<KosResponse> deleteKosById(@Path("id") int id);
 
 
     //CRUD Catering
@@ -102,5 +102,5 @@ public interface ApiInterface {
                                         @Field("bulan") String bulan);
 
     @DELETE("catering/delete/{id}")
-    Call<UserResponse> deleteCateringById(@Path("id") String id);
+    Call<CateringResponse> deleteCateringById(@Path("id") int id);
 }

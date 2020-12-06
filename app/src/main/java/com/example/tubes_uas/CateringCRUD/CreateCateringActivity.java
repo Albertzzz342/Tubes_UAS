@@ -68,7 +68,7 @@ public class CreateCateringActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         sIdUser = bundle.getInt("id");
-        loadUserById(sIdUser);
+//        loadUserById(sIdUser);
 
         ArrayAdapter<String> adapterPaket = new ArrayAdapter<>(Objects.requireNonNull(this),
                 R.layout.list_item, R.id.item_list, saPaket);
@@ -137,10 +137,6 @@ public class CreateCateringActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
-
-
     }
 
     private void saveCatering() {

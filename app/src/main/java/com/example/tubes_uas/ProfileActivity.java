@@ -1,11 +1,13 @@
 package com.example.tubes_uas;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     private MaterialTextView twEmail, twFasilitas, twJenis, twLama, twPaket, twHari, twBulan;
     private String sEmail, sFasilitas, sJenis, sLama, sPaket, sHari, sBulan;
     private int sIdUser;
-    private CardView cvCreateKos, cvCreateCatering;
+    private CardView cvCreateKos, cvCreateCatering, btnDeleteKos, btnDeleteCatering;
     private MaterialButton btnLogout, btnEdit;
     private ProgressDialog progressDialog;
     private List<UserDAO> users;
@@ -57,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         cvCreateKos = findViewById(R.id.cvCreateKos);
         cvCreateCatering = findViewById(R.id.cvCreateCatering);
+        btnDeleteKos = findViewById(R.id.cvDeleteKos);
+        btnDeleteCatering = findViewById(R.id.cvDeleteCatering);
 
         twEmail = findViewById(R.id.twEmail);
         twFasilitas = findViewById(R.id.twFasilitas);
@@ -76,6 +80,20 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+
+        btnDeleteKos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteKos(sIdUser);
+            }
+        });
+
+        btnDeleteCatering.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteCatering(sIdUser);
             }
         });
 
@@ -186,6 +204,40 @@ public class ProfileActivity extends AppCompatActivity {
             public void onFailure(Call<CateringResponse> call, Throwable t) {
                 Toast.makeText(ProfileActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
+            }
+        });
+    }
+
+    private void deleteKos(final int sIdUser) {
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            Call<KosResponse> call = apiService.deleteKosById(sIdUser);
+
+            call.enqueue(new Callback<KosResponse>() {
+                @Override
+                public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
+                    Toast.makeText(getApplicationContext(), "Kos berhasil dihapus", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<KosResponse> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    private void deleteCatering(final int sIdUser) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<CateringResponse> call = apiService.deleteCateringById(sIdUser);
+
+        call.enqueue(new Callback<CateringResponse>() {
+            @Override
+            public void onResponse(Call<CateringResponse> call, Response<CateringResponse> response) {
+                Toast.makeText(getApplicationContext(), "Catering berhasil dihapus", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<CateringResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
             }
         });
     }
