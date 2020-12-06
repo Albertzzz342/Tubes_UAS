@@ -130,4 +130,15 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/choco"/>
     </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEdit"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="Ganti Kos anda saat ini"
+        android:textColor="@color/black"
+        android:layout_alignParentRight="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/choco"/>
 </RelativeLayout>

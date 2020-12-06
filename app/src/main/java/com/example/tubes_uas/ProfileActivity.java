@@ -1,8 +1,10 @@
 package com.example.tubes_uas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,10 +24,14 @@ import com.example.tubes_uas.UserCRUD.CreateUserActivity;
 import com.example.tubes_uas.UserCRUD.EditUserActivity;
 import com.example.tubes_uas.UserCRUD.ShowListUserActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.List;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
     private MaterialButton btnLogout, btnEdit;
     private ProgressDialog progressDialog;
     private List<UserDAO> users;
+    //Map
+    private FloatingActionButton mapFab;
+    private static final int REQUEST_CODE = 100;
+    private static final String TAG = "ProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +96,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ProfileActivity.this, CreateKosActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", sIdUser);
+                i.putExtras(bundle);
                 startActivity(i);
             }
         });
@@ -94,9 +107,15 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ProfileActivity.this, CreateCateringActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", sIdUser);
+                i.putExtras(bundle);
                 startActivity(i);
             }
         });
+
+        //Map
+//        Maps();
     }
 
     private void loadUserById(int sIdUser) {
@@ -136,7 +155,6 @@ public class ProfileActivity extends AppCompatActivity {
                         twFasilitas.setText(sFasilitas);
                         twJenis.setText(sJenis);
                         twLama.setText(sLama);
-                        progressDialog.dismiss();
                     }
                 }
             }
@@ -160,7 +178,6 @@ public class ProfileActivity extends AppCompatActivity {
                         twPaket.setText(sPaket);
                         twHari.setText(sHari);
                         twBulan.setText(sBulan);
-                        progressDialog.dismiss();
                     }
                 }
             }
@@ -171,5 +188,47 @@ public class ProfileActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void Maps(){
+        LocationPermission();
+        mapFab = findViewById(R.id.fab_map);
+        mapFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent maps = new Intent(ProfileActivity.this, Peta.class);
+                startActivity(maps);
+            }
+        });
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE)
+    private void LocationPermission(){
+        String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION};
+
+        if(EasyPermissions.hasPermissions(this, permission)){
+            Toast.makeText(this, "Akses Lokasi diizinkan", Toast.LENGTH_SHORT).show();
+        }else {
+            EasyPermissions.requestPermissions(this, "Akses Lokasi tidak diizinkan",
+                    REQUEST_CODE, permission);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(REQUEST_CODE, permissions,grantResults,this);
+    }
+
+
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)){
+            new AppSettingsDialog.Builder(this).build().show();
+        }
     }
 }

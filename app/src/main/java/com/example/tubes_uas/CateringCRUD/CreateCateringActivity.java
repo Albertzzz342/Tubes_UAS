@@ -3,6 +3,9 @@ package com.example.tubes_uas.CateringCRUD;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +17,10 @@ import android.widget.Toast;
 import com.example.tubes_uas.Api.ApiClient;
 import com.example.tubes_uas.Api.ApiInterface;
 import com.example.tubes_uas.KosCRUD.CreateKosActivity;
+import com.example.tubes_uas.Model.CateringResponse;
+import com.example.tubes_uas.Model.KosResponse;
 import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.ProfileActivity;
 import com.example.tubes_uas.R;
 import com.google.android.material.button.MaterialButton;
 
@@ -28,12 +34,15 @@ public class CreateCateringActivity extends AppCompatActivity {
 
     private ImageButton ibBack;
     private AutoCompleteTextView exposedDropdownHari, exposedDropdownPaket, exposedDropdownBulan;
-    private MaterialButton btnCancel, btnCreate;
+    private MaterialButton btnCancel, btnCreate, btnEdit;
+    private int sIdUser;
     private String sPaket = "", sHari = "", sBulan = "";
     private String[] saPaket = new String[] {"Nasi Babi", "Nasi Ayam", "Nasi Goreng"};
     private String[] saHari = new String[] {"1x Sehari", "2x Sehari", "3x Sehari"};
     private String[] saBulan = new String[] {"1 Minggu", "2 Minggu", "4 Minggu"};
     private ProgressDialog progressDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,11 @@ public class CreateCateringActivity extends AppCompatActivity {
         exposedDropdownBulan = findViewById(R.id.edBulan);
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
+        btnEdit = findViewById(R.id.btnEdit);
+
+        Bundle bundle = getIntent().getExtras();
+        sIdUser = bundle.getInt("id");
+        loadUserById(sIdUser);
 
         ArrayAdapter<String> adapterPaket = new ArrayAdapter<>(Objects.requireNonNull(this),
                 R.layout.list_item, R.id.item_list, saPaket);
@@ -111,25 +125,78 @@ public class CreateCateringActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.show();
+                Intent i = new Intent(CreateCateringActivity.this,EditCateringActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", sIdUser);
+                i.putExtras(bundle);
+                startActivity(i);
+            }
+        });
+
+
+
+
     }
 
     private void saveCatering() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UserResponse> add = apiService.createCatering(sPaket, sHari, sBulan);
+        Call<CateringResponse> add = apiService.createCatering(sPaket, sHari, sBulan);
 
-        add.enqueue(new Callback<UserResponse>() {
+        add.enqueue(new Callback<CateringResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<CateringResponse> call, Response<CateringResponse> response) {
                 Toast.makeText(CreateCateringActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
                 onBackPressed();
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<CateringResponse> call, Throwable t) {
                 Toast.makeText(CreateCateringActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
     }
+
+    private void loadUserById(int sIdUser)
+    {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<UserResponse> call = apiService.getUserById(sIdUser, "data");
+
+        ApiInterface apiServiceCatering = ApiClient.getClient().create(ApiInterface.class);
+        Call<CateringResponse> callCatering = apiServiceCatering.getCateringById(sIdUser, "data");
+
+
+
+
+
+        callCatering.enqueue(new Callback<CateringResponse>() {
+            @Override
+            public void onResponse(Call<CateringResponse> call, Response<CateringResponse> response) {
+                sPaket = response.body().getData().getPaket();
+                sHari = response.body().getData().getHari();
+                sBulan = response.body().getData().getBulan();
+
+                exposedDropdownPaket.setText(sPaket);
+                exposedDropdownHari.setText(sHari);
+                exposedDropdownBulan.setText(sBulan);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<CateringResponse> call, Throwable t) {
+                Toast.makeText(CreateCateringActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+
+
+
 }

@@ -58,7 +58,7 @@ public interface ApiInterface {
     //CRUD Kos
     @POST("kos")
     @FormUrlEncoded
-    Call<UserResponse> createKos( @Field("jenis") String jenis,
+    Call<KosResponse> createKos( @Field("jenis") String jenis,
                                   @Field("fasilitas") String fasilitas,
                                   @Field("lama") String lama);
 
@@ -71,8 +71,7 @@ public interface ApiInterface {
 
     @PUT("kos/update/{id}")
     @FormUrlEncoded
-    Call<UserResponse> editKosById(@Path("id")int id,
-                                    @Query("data") String data,
+    Call<KosResponse> editKosById(@Path("id")int id,
                                     @Field("jenis") String jenis,
                                     @Field("fasilitas") String fasilitas,
                                     @Field("lama") String lama);
@@ -84,7 +83,7 @@ public interface ApiInterface {
     //CRUD Catering
     @POST("catering")
     @FormUrlEncoded
-    Call<UserResponse> createCatering(  @Field("paket") String paket,
+    Call<CateringResponse> createCatering(  @Field("paket") String paket,
                                         @Field("hari") String hari,
                                         @Field("bulan") String bulan);
 
@@ -97,8 +96,7 @@ public interface ApiInterface {
 
     @PUT("catering/update/{id}")
     @FormUrlEncoded
-    Call<UserResponse> editCateringById(@Path("id")int id,
-                                        @Query("data") String data,
+    Call<CateringResponse> editCateringById(@Path("id")int id,
                                         @Field("paket") String paket,
                                         @Field("hari") String hari,
                                         @Field("bulan") String bulan);

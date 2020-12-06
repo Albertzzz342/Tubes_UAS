@@ -7,4 +7,5 @@
 
     <string name="create_kos">Create Kos</string>
     <string name="edit_kos">Edit Kos</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYmV0YWlzdGlxb21haCIsImEiOiJja2ZtbXplMGExZWhvMnptamUzMTZicmtoIn0.0KQTYomlz2Z7FqDAukt_cQ</string>
 </resources>

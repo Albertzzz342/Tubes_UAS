@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.tubes_uas.Api.ApiClient;
 import com.example.tubes_uas.Api.ApiInterface;
+import com.example.tubes_uas.CateringCRUD.EditCateringActivity;
 import com.example.tubes_uas.Model.KosResponse;
 import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.ProfileActivity;
 import com.example.tubes_uas.R;
 import com.example.tubes_uas.UserCRUD.EditUserActivity;
 import com.google.android.material.button.MaterialButton;
@@ -60,6 +62,10 @@ public class EditKosActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnUpdate = findViewById(R.id.btnUpdate);
 
+        Bundle bundle = getIntent().getExtras();
+        sIdUser = bundle.getInt("id");
+        loadKosById(sIdUser);
+
         ArrayAdapter<String> adapterJenis = new ArrayAdapter<>(Objects.requireNonNull(this),
                 R.layout.list_item, R.id.item_list, saJenis);
         exposedDropdownJenis.setAdapter(adapterJenis);
@@ -78,6 +84,17 @@ public class EditKosActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 sFasilitas = saFasilitas[i];
+            }
+        });
+
+        ArrayAdapter<String> adapterLama = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saLama);
+        exposedDropdownLama.setAdapter(adapterLama);
+
+        exposedDropdownLama.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sLama = saLama[i];
             }
         });
 
@@ -114,18 +131,21 @@ public class EditKosActivity extends AppCompatActivity {
 
     private void updateKos(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UserResponse> add = apiService.editKosById(id, "data", sJenis, sFasilitas, sLama);
+        Call<KosResponse> add = apiService.editKosById(id,  sJenis, sFasilitas, sLama);
 
-        add.enqueue(new Callback<UserResponse>() {
+        add.enqueue(new Callback<KosResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                progressDialog.dismiss();
+            public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
                 Toast.makeText(EditKosActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                Intent i = new Intent(EditKosActivity.this, ProfileActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", sIdUser);
+                i.putExtras(bundle);
+                startActivity(i);
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<KosResponse> call, Throwable t) {
                 Toast.makeText(EditKosActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }

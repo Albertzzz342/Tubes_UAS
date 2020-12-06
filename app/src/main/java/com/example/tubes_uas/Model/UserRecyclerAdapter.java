@@ -52,7 +52,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                 dialog.show(manager, "dialog");
 
                 Bundle args = new Bundle();
-//                args.putString("id", brg.getId());
+                args.putInt("id", brg.getId());
                 dialog.setArguments(args);
             }
         });
@@ -64,13 +64,12 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     }
 
     public class RoomViewHolder extends RecyclerView.ViewHolder{
-        private TextView twNama, twNim;
+        private TextView twEmail;
         private LinearLayout mParent;
 
         public RoomViewHolder(@NonNull View itemView){
             super(itemView);
-            twNama = itemView.findViewById(R.id.twNama);
-//            twNim = itemView.findViewById(R.id.twNim);
+            twEmail = itemView.findViewById(R.id.twEmail);
             mParent = itemView.findViewById(R.id.linearLayout);
         }
     }

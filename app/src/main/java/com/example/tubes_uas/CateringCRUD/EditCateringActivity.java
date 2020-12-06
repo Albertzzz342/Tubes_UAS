@@ -17,6 +17,7 @@ import com.example.tubes_uas.Api.ApiInterface;
 import com.example.tubes_uas.CateringCRUD.EditCateringActivity;
 import com.example.tubes_uas.Model.CateringResponse;
 import com.example.tubes_uas.Model.UserResponse;
+import com.example.tubes_uas.ProfileActivity;
 import com.example.tubes_uas.R;
 import com.google.android.material.button.MaterialButton;
 
@@ -58,6 +59,10 @@ public class EditCateringActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnUpdate = findViewById(R.id.btnUpdate);
 
+        Bundle bundle = getIntent().getExtras();
+        sIdUser = bundle.getInt("id");
+        loadCateringById(sIdUser);
+
         ArrayAdapter<String> adapterPaket = new ArrayAdapter<>(Objects.requireNonNull(this),
                 R.layout.list_item, R.id.item_list, saPaket);
         exposedDropdownPaket.setAdapter(adapterPaket);
@@ -78,6 +83,18 @@ public class EditCateringActivity extends AppCompatActivity {
                 sHari = saHari[i];
             }
         });
+
+        ArrayAdapter<String> adapterBulan = new ArrayAdapter<>(Objects.requireNonNull(this),
+                R.layout.list_item, R.id.item_list, saBulan);
+        exposedDropdownBulan.setAdapter(adapterBulan);
+
+        exposedDropdownBulan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sBulan = saBulan[i];
+            }
+        });
+
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,18 +128,22 @@ public class EditCateringActivity extends AppCompatActivity {
 
     private void updateCatering(int id) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UserResponse> add = apiService.editCateringById(id, "data", sPaket, sHari, sBulan);
+        Call<CateringResponse> add = apiService.editCateringById(id, sPaket, sHari, sBulan);
 
-        add.enqueue(new Callback<UserResponse>() {
+        add.enqueue(new Callback<CateringResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                progressDialog.dismiss();
+            public void onResponse(Call<CateringResponse> call, Response<CateringResponse> response) {
+                //progressDialog.dismiss();
                 Toast.makeText(EditCateringActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                Intent i = new Intent(EditCateringActivity.this, ProfileActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", sIdUser);
+                i.putExtras(bundle);
+                startActivity(i);
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<CateringResponse> call, Throwable t) {
                 Toast.makeText(EditCateringActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
