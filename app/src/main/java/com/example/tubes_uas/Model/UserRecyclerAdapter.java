@@ -43,8 +43,6 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull UserRecyclerAdapter.RoomViewHolder holder, int position) {
         final UserDAO brg = filteredDataList.get(position);
-        holder.twNama.setText(brg.getNama());
-//        holder.twNim.setText(brg.getNim());
 
         holder.mParent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +86,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                 }else {
                     List<UserDAO> filteredList = new ArrayList<>();
                     for (UserDAO UserDAO : dataList){
-                        if (UserDAO.getNama().toLowerCase().contains(charSequenceString.toLowerCase())) {
+                        if (UserDAO.getEmail().toLowerCase().contains(charSequenceString.toLowerCase())) {
                             filteredList.add(UserDAO);
                         }
                         filteredDataList = filteredList;

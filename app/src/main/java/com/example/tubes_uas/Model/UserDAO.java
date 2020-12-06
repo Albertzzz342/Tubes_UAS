@@ -16,8 +16,7 @@ public class UserDAO {
     private String password;
 
     public UserDAO(int id,
-                   String nama, String email, String password,
-                   String paket, String hari, String bulan){
+                   String nama, String email, String password){
         this.id     = id;
         this.nama   = nama;
         this.email  = email;
@@ -30,14 +29,6 @@ public class UserDAO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNama() {
-        return nama;
-    }
-
-    public void setNama(String nama) {
-        this.nama = nama;
     }
 
     public String getEmail() {

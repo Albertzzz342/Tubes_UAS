@@ -1,5 +1,6 @@
 package com.example.tubes_uas.Api;
 
+import com.example.tubes_uas.Model.AllUserResponse;
 import com.example.tubes_uas.Model.CateringResponse;
 import com.example.tubes_uas.Model.KosResponse;
 import com.example.tubes_uas.Model.UserResponse;
@@ -27,7 +28,7 @@ public interface ApiInterface {
                                  @Field("password") String password);
 
     @GET("user")
-    Call<UserResponse> getAllUser(@Query("data") String data);
+    Call<AllUserResponse> getAllUser(@Query("data") String data);
 
     @GET("user/{id}")
     Call<UserResponse> getUserById(@Path("id")int id,

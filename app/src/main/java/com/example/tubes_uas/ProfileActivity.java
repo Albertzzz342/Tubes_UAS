@@ -32,8 +32,8 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private MaterialTextView twNama, twEmail, twFasilitas, twJenis, twLama, twPaket, twHari, twBulan;
-    private String sNama, sEmail, sFasilitas, sJenis, sLama, sPaket, sHari, sBulan;
+    private MaterialTextView twEmail, twFasilitas, twJenis, twLama, twPaket, twHari, twBulan;
+    private String sEmail, sFasilitas, sJenis, sLama, sPaket, sHari, sBulan;
     private int sIdUser;
     private CardView cvCreateKos, cvCreateCatering;
     private MaterialButton btnLogout, btnEdit;
@@ -51,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
         cvCreateKos = findViewById(R.id.cvCreateKos);
         cvCreateCatering = findViewById(R.id.cvCreateCatering);
 
-        twNama = findViewById(R.id.twNama);
         twEmail = findViewById(R.id.twEmail);
         twFasilitas = findViewById(R.id.twFasilitas);
         twJenis = findViewById(R.id.twJenis);
@@ -116,15 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.body().getData() != null){
-                    Toast.makeText(ProfileActivity.this, response.body().getData().getEmail(), Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(ProfileActivity.this, "kosong", Toast.LENGTH_SHORT).show();
-                }
-//                sNama = response.body().getUser().getNama();
                 sEmail = response.body().getData().getEmail();
-
-//                twNama.setText(sNama);
                 twEmail.setText(sEmail);
             }
 
@@ -138,19 +129,19 @@ public class ProfileActivity extends AppCompatActivity {
         callKos.enqueue(new Callback<KosResponse>() {
             @Override
             public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
-//                if (response.body().getData() != null){
-//                    Toast.makeText(ProfileActivity.this, response.body().getData().getFasilitas(), Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(ProfileActivity.this, "kosong", Toast.LENGTH_SHORT).show();
-//                }
-                sFasilitas = response.body().getData().getFasilitas();
-                sJenis = response.body().getData().getJenis();
-                sLama = response.body().getData().getLama();
+                if (response.code() == 200){
+                    if (response.body().getData() != null){
+                        Toast.makeText(ProfileActivity.this, response.body().getData().getFasilitas(), Toast.LENGTH_SHORT).show();
+                        sFasilitas = response.body().getData().getFasilitas();
+                        sJenis = response.body().getData().getJenis();
+                        sLama = response.body().getData().getLama();
 
-                twFasilitas.setText(sFasilitas);
-                twJenis.setText(sJenis);
-                twLama.setText(sLama);
-                progressDialog.dismiss();
+                        twFasilitas.setText(sFasilitas);
+                        twJenis.setText(sJenis);
+                        twLama.setText(sLama);
+                        progressDialog.dismiss();
+                    }
+                }
             }
 
             @Override
@@ -163,14 +154,18 @@ public class ProfileActivity extends AppCompatActivity {
         callCatering.enqueue(new Callback<CateringResponse>() {
             @Override
             public void onResponse(Call<CateringResponse> call, Response<CateringResponse> response) {
-                sPaket = response.body().getData().getPaket();
-                sHari = response.body().getData().getHari();
-                sBulan = response.body().getData().getBulan();
+                if (response.code() == 200){
+                    if (response.body().getData() != null){
+                        sPaket = response.body().getData().getPaket();
+                        sHari = response.body().getData().getHari();
+                        sBulan = response.body().getData().getBulan();
 
-                twPaket.setText(sPaket);
-                twHari.setText(sHari);
-                twBulan.setText(sBulan);
-                progressDialog.dismiss();
+                        twPaket.setText(sPaket);
+                        twHari.setText(sHari);
+                        twBulan.setText(sBulan);
+                        progressDialog.dismiss();
+                    }
+                }
             }
 
             @Override

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.tubes_uas.Api.ApiClient;
 import com.example.tubes_uas.Api.ApiInterface;
 import com.example.tubes_uas.MainActivity;
+import com.example.tubes_uas.Model.AllUserResponse;
 import com.example.tubes_uas.Model.UserDAO;
 import com.example.tubes_uas.Model.UserRecyclerAdapter;
 import com.example.tubes_uas.Model.UserResponse;
@@ -33,7 +34,7 @@ public class ShowListUserActivity extends AppCompatActivity {
     private ImageButton ibBack;
     private RecyclerView recyclerView;
     private UserRecyclerAdapter recyclerAdapter;
-    private List<UserDAO> user = new ArrayList<>();
+    private List<UserDAO> users = new ArrayList<>();
     private SearchView searchView;
     private SwipeRefreshLayout swipeRefresh;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -68,20 +69,21 @@ public class ShowListUserActivity extends AppCompatActivity {
 
     public void loadUser() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UserResponse> call = apiService.getAllUser("data");
+        Call<AllUserResponse> call = apiService.getAllUser("data");
 
-        call.enqueue(new Callback<UserResponse>() {
+        call.enqueue(new Callback<AllUserResponse>(){
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<AllUserResponse> call, Response<AllUserResponse> response) {
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.VISIBLE);
                 shimmerFrameLayout.setVisibility(View.GONE);
-//                generateDataList(response.body().getUsers());
+                List<UserDAO> users = response.body().getUsers();
+                generateDataList(users);
                 swipeRefresh.setRefreshing(false);
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<AllUserResponse> call, Throwable t) {
                 Toast.makeText(ShowListUserActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
                 shimmerFrameLayout.stopShimmer();
